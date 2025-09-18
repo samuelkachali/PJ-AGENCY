@@ -6,18 +6,24 @@ import AdvertCard from '../components/AdvertCard';
 const API = process.env.REACT_APP_API || 'http://localhost:5000';
 
 export default function Home() {
+  const [hot, setHot] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [latest, setLatest] = useState([]);
 
   useEffect(() => {
-    // Fetch featured adverts first; if none, fallback to latest active
+    // Load Hot Deals first (salePrice <= 50% or isHot = true)
+    fetch(`${API}/api/adverts?hot=true&status=active`)
+      .then(r => r.json())
+      .then(list => setHot((list || []).slice(0, 8)))
+      .catch(() => setHot([]));
+
+    // Fetch featured adverts, fallback to latest
     fetch(`${API}/api/adverts?featured=true&status=active`)
       .then(r => r.json())
       .then(items => {
         if (Array.isArray(items) && items.length) {
           setFeatured(items.slice(0, 8));
         } else {
-          // Fallback: latest active adverts
           fetch(`${API}/api/adverts?status=active`)
             .then(r => r.json())
             .then(list => setLatest((list || []).slice(0, 12)))
@@ -25,7 +31,6 @@ export default function Home() {
         }
       })
       .catch(() => {
-        // If featured fetch fails, try latest
         fetch(`${API}/api/adverts?status=active`)
           .then(r => r.json())
           .then(list => setLatest((list || []).slice(0, 12)))
@@ -39,8 +44,22 @@ export default function Home() {
     <div>
       <HeroCarousel />
 
+      {hot.length > 0 && (
+        <section className="container" style={{marginTop: 24}}>
+          <div className="card card--tinted" style={{padding: 16}}>
+            <h2 style={{margin: 0}}>Hot Deals • Up to 50% Off</h2>
+            <p style={{color:'#64748b', marginTop: 6}}>Discounted land and houses currently on promotion.</p>
+          </div>
+          <div className="grid grid--cards" style={{marginTop: 16}}>
+            {hot.map(a => (
+              <AdvertCard key={a._id} advert={a} enableSlideshow={true} intervalMs={2200} />
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="container" style={{marginTop: 24}}>
-        <div className="card" style={{padding: 16}}>
+        <div className="card card--tinted" style={{padding: 16}}>
           <h2 style={{margin: 0}}>{hasFeatured ? 'Featured Adverts' : 'Latest Adverts'}</h2>
           <p style={{color:'#64748b', marginTop: 6}}>
             Browse {hasFeatured ? 'hand-picked' : 'recently uploaded'} listings from the admin.

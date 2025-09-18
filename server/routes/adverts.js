@@ -37,12 +37,28 @@ router.post('/', auth, upload.array('images', 10), async (req, res) => {
 
 // List adverts (with filters)
 router.get('/', async (req, res) => {
-  const { category, status, q, featured } = req.query;
+  const { category, status, q, featured, hot } = req.query;
   const filter = {};
   if (category) filter.category = category;
   if (status) filter.status = status;
   if (q) filter.title = { $regex: q, $options: 'i' };
   if (typeof featured !== 'undefined') filter.featured = ['1', 'true', true, 1, 'yes'].includes(featured);
+
+  // Hot deals: either explicitly flagged, or salePrice <= 50% of price
+  if (typeof hot !== 'undefined' && ['1', 'true', true, 1, 'yes'].includes(hot)) {
+    filter.$or = [
+      { isHot: true },
+      {
+        $expr: {
+          $and: [
+            { $ne: ['$salePrice', null] },
+            { $lte: ['$salePrice', { $multiply: ['$price', 0.5] }] }
+          ]
+        }
+      }
+    ];
+  }
+
   const adverts = await Advert.find(filter).populate('category').sort('-createdAt');
   res.json(adverts);
 });

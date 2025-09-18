@@ -18,11 +18,15 @@ export default function AdvertCard({ advert, enableSlideshow = true, intervalMs 
 
   const cover = images[i] || images[0] || fallback;
 
+  const hasSale = advert.salePrice != null && advert.salePrice >= 0 && advert.salePrice < advert.price;
+  const discountPct = hasSale ? Math.round(100 - (advert.salePrice / advert.price) * 100) : 0;
+
   return (
     <Link to={`/adverts/${advert._id}`} className="card card--hover advert" style={{textDecoration:'none', color:'inherit'}}>
       <div className="advert__media">
         <img src={cover} alt={advert.title} />
         {advert.status && <span className={`badge ${advert.status}`}>{advert.status}</span>}
+        {hasSale && <span className="badge sale">{discountPct}% off</span>}
         {hasMany && (
           <div style={{position:'absolute', bottom:8, right:8, display:'flex', gap:4}}>
             {images.map((_, idx) => (
@@ -34,7 +38,16 @@ export default function AdvertCard({ advert, enableSlideshow = true, intervalMs 
       <div className="advert__body">
         <h3 className="advert__title">{advert.title}</h3>
         <div className="advert__meta">{advert.category?.name} • {advert.location}</div>
-        <div className="advert__price">{advert.currency} {Number(advert.price).toLocaleString()}</div>
+        <div className="advert__price">
+          {hasSale ? (
+            <>
+              <span className="price price--strike">{advert.currency} {Number(advert.price).toLocaleString()}</span>
+              <span className="price price--sale">Now {advert.currency} {Number(advert.salePrice).toLocaleString()}</span>
+            </>
+          ) : (
+            <span className="price">{advert.currency} {Number(advert.price).toLocaleString()}</span>
+          )}
+        </div>
         <p className="advert__desc">{(advert.description || '').slice(0, 110)}{(advert.description||'').length>110?'…':''}</p>
       </div>
     </Link>

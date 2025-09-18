@@ -14,7 +14,7 @@ export default function Navbar() {
           <Link className={`nav__link ${pathname === '/' ? 'is-active' : ''}`} to="/">Home</Link>
           <Link className={`nav__link ${pathname.startsWith('/adverts') ? 'is-active' : ''}`} to="/adverts">Adverts</Link>
           <Link className={`nav__link ${pathname.startsWith('/login') ? 'is-active' : ''}`} to="/login">Login</Link>
-          <a className="btn btn--primary" href="#list-property">List your property</a>
+          <Link className="btn btn--primary" to="/list-property">List your property</Link>
         </nav>
       </div>
     </header>

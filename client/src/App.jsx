@@ -6,6 +6,7 @@ import AdvertDetails from './pages/AdvertDetails.jsx';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import NewAdvert from './pages/NewAdvert';
+import ListProperty from './pages/ListProperty.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -16,12 +17,17 @@ export default function App() {
     <BrowserRouter>
       {/* Fallback global nav for pages without PublicList layout */}
       <Navbar />
+
+      {/* Toast container */}
+      <div id="toast-root" style={{position:'fixed', top:16, right:16, zIndex:1000}} />
+
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/adverts" element={<PublicList />} />
         <Route path="/adverts/:id" element={<AdvertDetails />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/list-property" element={<ListProperty />} />
 
         {/* Admin */}
         <Route

@@ -5,6 +5,10 @@ const advertSchema = new mongoose.Schema({
   description: { type: String, required: true, maxlength: 2000 },
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
   price: { type: Number, required: true, min: 0 },
+  // Optional sale price for discounts/promotions
+  salePrice: { type: Number, min: 0, default: null },
+  // Admin toggle to force-show as hot deal regardless of salePrice math
+  isHot: { type: Boolean, default: false },
   currency: { type: String, default: 'MWK', enum: ['MWK', 'USD', 'EUR'] },
   location: { type: String, required: true, trim: true },
   contactPhone: { type: String, required: true, trim: true },
