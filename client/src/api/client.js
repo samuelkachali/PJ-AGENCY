@@ -1,4 +1,4 @@
-const API_BASE = process.env.REACT_APP_API || 'http://localhost:5000';
+export const API_BASE = process.env.REACT_APP_API || 'http://localhost:5000';
 export const getToken = () => localStorage.getItem('pj_token');
 export const setToken = (t) => localStorage.setItem('pj_token', t);
 export const clearToken = () => localStorage.removeItem('pj_token');

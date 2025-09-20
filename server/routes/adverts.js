@@ -6,12 +6,22 @@ const Advert = require('../models/Advert');
 const auth = require('../middleware/auth');
 const router = express.Router();
 
-// Ensure upload folder exists
-const uploadDir = path.join(__dirname, '..', 'uploads');
+// Ensure upload folder exists (support persistent disk via env)
+const uploadDir = process.env.UPLOADS_DIR || path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-// Multer setup
-const storage = multer.diskStorage({
+// Multer setup (supports Cloudinary via memory storage)
+let cloudinary;
+const useCloud = !!process.env.CLOUDINARY_CLOUD_NAME;
+if (useCloud) {
+  cloudinary = require('cloudinary').v2;
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+}
+const diskStorage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -19,17 +29,35 @@ const storage = multer.diskStorage({
     cb(null, unique + ext);
   }
 });
-const upload = multer({ storage });
+const upload = multer({ storage: useCloud ? multer.memoryStorage() : diskStorage });
+
+// Helper: upload a single file buffer to Cloudinary
+const uploadToCloud = (file) => new Promise((resolve, reject) => {
+  cloudinary.uploader.upload_stream({ folder: 'pj-agency' }, (err, result) => {
+    if (err) return reject(err);
+    resolve({
+      filename: result.public_id,
+      originalName: file.originalname,
+      path: result.secure_url,
+      size: file.size
+    });
+  }).end(file.buffer);
+});
 
 // Create advert
 router.post('/', auth, upload.array('images', 10), async (req, res) => {
   try {
-    const images = (req.files || []).map(f => ({
-      filename: f.filename,
-      originalName: f.originalname,
-      path: '/uploads/' + f.filename,
-      size: f.size
-    }));
+    let images = [];
+    if (useCloud) {
+      images = await Promise.all((req.files || []).map(f => uploadToCloud(f)));
+    } else {
+      images = (req.files || []).map(f => ({
+        filename: f.filename,
+        originalName: f.originalname,
+        path: '/uploads/' + f.filename,
+        size: f.size
+      }));
+    }
     const advert = await Advert.create({ ...req.body, images, createdBy: req.user.id });
     res.status(201).json(advert);
   } catch (e) { res.status(400).json({ message: e.message }); }
@@ -37,12 +65,29 @@ router.post('/', auth, upload.array('images', 10), async (req, res) => {
 
 // List adverts (with filters)
 router.get('/', async (req, res) => {
-  const { category, status, q, featured, hot } = req.query;
+  const { category, status, q, featured, hot, location, minPrice, maxPrice, bedrooms } = req.query;
   const filter = {};
   if (category) filter.category = category;
   if (status) filter.status = status;
   if (q) filter.title = { $regex: q, $options: 'i' };
+  if (location) filter.location = { $regex: location, $options: 'i' };
   if (typeof featured !== 'undefined') filter.featured = ['1', 'true', true, 1, 'yes'].includes(featured);
+
+  // Price range (supports salePrice as effective price)
+  if (minPrice || maxPrice) {
+    const priceExpr = {
+      $cond: [{ $and: [{ $ne: ['$salePrice', null] }, { $lt: ['$salePrice', '$price'] }] }, '$salePrice', '$price']
+    };
+    filter.$expr = { $and: [] };
+    if (minPrice) filter.$expr.$and.push({ $gte: [priceExpr, Number(minPrice)] });
+    if (maxPrice) filter.$expr.$and.push({ $lte: [priceExpr, Number(maxPrice)] });
+  }
+
+  // Bedrooms
+  if (bedrooms) {
+    const n = Number(bedrooms);
+    if (!isNaN(n)) filter.bedrooms = { $gte: n };
+  }
 
   // Hot deals: either explicitly flagged, or salePrice <= 50% of price
   if (typeof hot !== 'undefined' && ['1', 'true', true, 1, 'yes'].includes(hot)) {
@@ -73,12 +118,17 @@ router.get('/:id', async (req, res) => {
 // Update advert
 router.put('/:id', auth, upload.array('images', 10), async (req, res) => {
   try {
-    const images = (req.files || []).map(f => ({
-      filename: f.filename,
-      originalName: f.originalname,
-      path: '/uploads/' + f.filename,
-      size: f.size
-    }));
+    let images = [];
+    if (useCloud) {
+      images = await Promise.all((req.files || []).map(f => uploadToCloud(f)));
+    } else {
+      images = (req.files || []).map(f => ({
+        filename: f.filename,
+        originalName: f.originalname,
+        path: '/uploads/' + f.filename,
+        size: f.size
+      }));
+    }
 
     // Use atomic operators to avoid mixing plain fields with $ operators
     const set = { ...req.body };

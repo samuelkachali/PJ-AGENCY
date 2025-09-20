@@ -11,6 +11,7 @@ const advertSchema = new mongoose.Schema({
   isHot: { type: Boolean, default: false },
   currency: { type: String, default: 'MWK', enum: ['MWK', 'USD', 'EUR'] },
   location: { type: String, required: true, trim: true },
+  bedrooms: { type: Number, min: 0, default: null },
   contactPhone: { type: String, required: true, trim: true },
   contactEmail: { type: String, trim: true, lowercase: true },
   images: [{ filename: String, originalName: String, path: String, size: Number }],

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const API = process.env.REACT_APP_API || 'http://localhost:5000';
+const API = process.env.REACT_APP_API || (typeof window !== 'undefined' ? window.location.origin : '');
 
 export default function ListProperty() {
   const [form, setForm] = useState({

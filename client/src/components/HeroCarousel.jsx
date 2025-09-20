@@ -26,15 +26,32 @@ export default function HeroCarousel() {
     return () => clearInterval(id);
   }, []);
 
+  const heroFallback = "data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'>\
+  <defs>\
+    <linearGradient id='gg' x1='0' y1='0' x2='1' y2='1'>\
+      <stop offset='0%' stop-color='%230f9896'/>\
+      <stop offset='100%' stop-color='%230e6b6a'/>\
+    </linearGradient>\
+  </defs>\
+  <rect width='1600' height='900' fill='url(%23gg)'/>\
+</svg>";
+
   return (
     <section className="hero">
       {slides.map((s, i) => (
         <div
           key={i}
           className={`hero__slide ${i === active ? 'is-active' : ''}`}
-          style={{ backgroundImage: `url(${s.image})` }}
           aria-hidden={i !== active}
         >
+          {/* Use an actual image tag for reliable loading & fallback */}
+          <img
+            src={s.image}
+            alt=""
+            onError={(e) => { if (e.currentTarget.src !== heroFallback) e.currentTarget.src = heroFallback; }}
+            style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover' }}
+          />
           <div className="hero__overlay">
             <div className="container hero__content">
               <h1 className="hero__title">{s.title}</h1>

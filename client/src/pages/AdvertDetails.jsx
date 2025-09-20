@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { api } from '../api/client';
 import emailjs from '@emailjs/browser';
 
-const API = process.env.REACT_APP_API || 'http://localhost:5000';
+const API = process.env.REACT_APP_API || (typeof window !== 'undefined' ? window.location.origin : '');
 const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
@@ -24,22 +24,22 @@ export default function AdvertDetails() {
   if (err) return <div className="container"><div className="card error">{err}</div></div>;
   if (!data) return null;
 
-  const images = data.images?.length ? data.images.map(i => `${API}${i.path}`) : [];
+  const images = data.images?.length ? data.images.map(i => (i.path?.startsWith('http') ? i.path : `${API}${i.path}`)) : [];
   const hasSale = data.salePrice != null && data.salePrice >= 0 && data.salePrice < data.price;
   const discountPct = hasSale ? Math.round(100 - (data.salePrice / data.price) * 100) : 0;
 
   return (
     <div className="container">
-      <div className="grid" style={{gridTemplateColumns: '2fr 1fr'}}>
+      <div className="grid detail-grid">
         <div className="card">
           {/* Show all images stacked for details */}
           <div className="grid" style={{gridTemplateColumns:'1fr', gap:12}}>
             {images.length ? images.map((src, idx) => (
-              <div key={idx} className="advert__media" style={{height:360}} onClick={()=>setLightbox(idx)}>
+              <div key={idx} className="advert__media advert__media--details" onClick={()=>setLightbox(idx)}>
                 <img loading="lazy" src={src} alt={`image-${idx}`} />
               </div>
             )) : (
-              <div className="advert__media" style={{height:320}}>
+              <div className="advert__media advert__media--details">
                 <img loading="lazy" alt="placeholder" src="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1200&auto=format&fit=crop"/>
               </div>
             )}
