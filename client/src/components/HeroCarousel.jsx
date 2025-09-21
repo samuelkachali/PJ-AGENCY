@@ -38,7 +38,7 @@ export default function HeroCarousel() {
 </svg>";
 
   return (
-    <section className="hero">
+    <section className="hero hero--business">
       {slides.map((s, i) => (
         <div
           key={i}
@@ -56,7 +56,9 @@ export default function HeroCarousel() {
             <div className="container hero__content">
               <h1 className="hero__title">{s.title}</h1>
               <p className="hero__subtitle">{s.subtitle}</p>
-              <a href="#listings" className="btn btn--light">Browse listings</a>
+              <div className="hero__actions">
+                <a href="#listings" className="btn btn--light">Browse listings</a>
+              </div>
             </div>
           </div>
         </div>

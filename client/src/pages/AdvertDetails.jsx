@@ -78,11 +78,11 @@ export default function AdvertDetails() {
             </button>
             <a className="btn btn--light" href={`https://wa.me/?text=${encodeURIComponent(`${data.title} - ${window.location.href}`)}`} target="_blank" rel="noreferrer">
               <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.76 11.76 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.8L0 24l6.4-1.68A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.18-1.24-6.18-3.48-8.52zM12 22c-1.9 0-3.67-.5-5.2-1.38l-.37-.21-3.08.81.82-3.01-.24-.39A9.96 9.96 0 0 1 2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.43-7.57c-.3-.15-1.77-.87-2.05-.97-.28-.1-.48-.15-.69.15-.2.3-.8.97-.99 1.17-.18.2-.36.22-.66.07-.3-.15-1.26-.47-2.4-1.5-.89-.78-1.49-1.74-1.66-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.69-1.65-.95-2.26-.25-.6-.5-.52-.69-.53-.18 0-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.1 4.49.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35z"/></svg>
-              Share on WhatsApp
+              Share
             </a>
             <a className="btn btn--light" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noreferrer">
               <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07C2 17.08 5.66 21.2 10.44 22v-7.03H7.9v-2.9h2.54V9.84c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.9h-2.33V22C18.34 21.2 22 17.08 22 12.07z"/></svg>
-              Share on Facebook
+              Share
             </a>
             <a className="btn btn--primary" href={`https://wa.me/265997330912?text=${encodeURIComponent(`Hello, I'm interested in "${data.title}" - ${window.location.href}`)}`} target="_blank" rel="noreferrer">
               <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>

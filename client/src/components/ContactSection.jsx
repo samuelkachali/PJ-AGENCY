@@ -27,20 +27,20 @@ export default function ContactSection({ bare = false }) {
       <form onSubmit={submit} className="form">
         <div className="row">
           <div>
-            <label>Name</label>
-            <input value={name} onChange={(e)=>setName(e.target.value)} required />
+            <label htmlFor="contactName">Name</label>
+            <input id="contactName" name="name" value={name} onChange={(e)=>setName(e.target.value)} required />
           </div>
           <div>
-            <label>Phone</label>
-            <input value={phone} onChange={(e)=>setPhone(e.target.value)} />
+            <label htmlFor="contactPhone">Phone</label>
+            <input id="contactPhone" name="phone" value={phone} onChange={(e)=>setPhone(e.target.value)} />
           </div>
           <div>
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+            <label htmlFor="contactEmail">Email</label>
+            <input id="contactEmail" name="email" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} />
           </div>
         </div>
-        <label>Message</label>
-        <textarea rows={4} value={message} onChange={(e)=>setMessage(e.target.value)} required />
+        <label htmlFor="contactMessage">Message</label>
+        <textarea id="contactMessage" name="message" rows={4} value={message} onChange={(e)=>setMessage(e.target.value)} required />
         <div style={{marginTop:12, display:'flex', gap:8}}>
           <button className="btn btn--primary" disabled={sending}>{sending ? 'Sending…' : 'Send Message'}</button>
           {ok === true && <div className="toast toast--ok">Thanks! We\'ll be in touch.</div>}

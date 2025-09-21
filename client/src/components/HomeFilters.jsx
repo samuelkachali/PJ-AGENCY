@@ -27,20 +27,20 @@ export default function HomeFilters() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="card card--tinted">
+    <form onSubmit={onSubmit} className="filters card">
       <div className="filters__row filters__row--5">
-        <input className="input--lg" placeholder="Search title…" value={q} onChange={(e)=>setQ(e.target.value)} />
-        <select value={category} onChange={(e)=>setCategory(e.target.value)}>
+        <input id="search" name="q" className="input--lg input--search" placeholder="Search title…" aria-label="Search title" value={q} onChange={(e)=>setQ(e.target.value)} />
+        <select id="category" name="category" aria-label="Category" value={category} onChange={(e)=>setCategory(e.target.value)}>
           <option value="">All types</option>
           {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
         </select>
-        <input placeholder="Location (e.g., Lilongwe)" value={location} onChange={(e)=>setLocation(e.target.value)} />
+        <input id="location" name="location" placeholder="Location (e.g., Lilongwe)" aria-label="Location" value={location} onChange={(e)=>setLocation(e.target.value)} />
         <div style={{display:'flex', gap:8}}>
-          <input placeholder="Min MK" type="number" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} />
-          <input placeholder="Max MK" type="number" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} />
+          <input id="minPrice" name="minPrice" placeholder="Min MK" type="number" aria-label="Minimum price" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} />
+          <input id="maxPrice" name="maxPrice" placeholder="Max MK" type="number" aria-label="Maximum price" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} />
         </div>
         <div style={{display:'flex', gap:8}}>
-          <select value={bedrooms} onChange={(e)=>setBedrooms(e.target.value)}>
+          <select id="bedrooms" name="bedrooms" aria-label="Bedrooms" value={bedrooms} onChange={(e)=>setBedrooms(e.target.value)}>
             <option value="">Bedrooms</option>
             <option value="1">1+</option>
             <option value="2">2+</option>

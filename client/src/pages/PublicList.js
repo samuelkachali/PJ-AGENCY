@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import HeroCarousel from '../components/HeroCarousel';
 import AdvertCard from '../components/AdvertCard';
 const API = process.env.REACT_APP_API || (typeof window !== 'undefined' ? window.location.origin : '');
 
@@ -61,23 +60,21 @@ export default function PublicList() {
 
   return (
     <div>
-      <HeroCarousel />
-
       <section id="listings" className="container">
-        <form onSubmit={(e)=>{e.preventDefault(); setPage(1); fetchAdverts();}} className="card card--tinted filters">
+        <form onSubmit={(e)=>{e.preventDefault(); setPage(1); fetchAdverts();}} className="filters card">
           <div className="filters__row filters__row--5">
-            <input className="input--lg" placeholder="Search title…" value={q} onChange={(e)=>setQ(e.target.value)} />
+            <input className="input--lg input--search" aria-label="Search adverts" placeholder="Search title…" value={q} onChange={(e)=>setQ(e.target.value)} />
             <select value={category} onChange={(e)=>setCategory(e.target.value)}>
               <option value="">All types</option>
               {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
             <input placeholder="Location (e.g., Lilongwe)" value={location} onChange={(e)=>setLocation(e.target.value)} />
-            <div style={{display:'flex', gap:8}}>
+            <div className="filters__group hide-mobile">
               <input placeholder="Min MK" type="number" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} />
               <input placeholder="Max MK" type="number" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} />
             </div>
-            <div style={{display:'flex', gap:8}}>
-              <select value={bedrooms} onChange={(e)=>setBedrooms(e.target.value)}>
+            <div className="filters__group">
+              <select className="hide-mobile" value={bedrooms} onChange={(e)=>setBedrooms(e.target.value)}>
                 <option value="">Bedrooms</option>
                 <option value="1">1+</option>
                 <option value="2">2+</option>
@@ -90,7 +87,7 @@ export default function PublicList() {
                 <option value="sold">Sold</option>
                 <option value="rented">Rented</option>
               </select>
-              <select value={sort} onChange={(e)=>{setSort(e.target.value); setPage(1);}}>
+              <select className="hide-mobile" value={sort} onChange={(e)=>{setSort(e.target.value); setPage(1);}}>
                 <option value="newest">Newest</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>

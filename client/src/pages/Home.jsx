@@ -78,7 +78,7 @@ export default function Home() {
       </section>
 
       {hot.length > 0 && (
-        <section className="container section">
+        <section className="container section section--alt">
           <div className="section__header">
             <span className="kicker"><span className="icon" aria-hidden="true" style={{lineHeight:0}}><IconFlame /></span> Hot Deals</span>
             <span className="section__subtitle">Discounted land and houses currently on promotion.</span>
@@ -95,7 +95,7 @@ export default function Home() {
       )}
 
       {/* Featured/Latest Section */}
-      <section className="container section">
+      <section className="container section section--tealTint">
         <div className="section__header">
           <span className="kicker"><span className="icon" aria-hidden="true" style={{lineHeight:0}}>{hasFeatured ? <IconCheck/> : <IconHome/>}</span> {hasFeatured ? 'Featured' : 'Latest'}</span>
           <span className="section__subtitle">Browse {hasFeatured ? 'hand-picked' : 'recently uploaded'} listings from the admin.</span>
@@ -114,7 +114,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us / About */}
-      <section className="container section">
+      <section className="container section section--mint">
         <div className="section__header">
           <span className="kicker">Why Choose Us</span>
           <span className="section__subtitle">Trusted. Verified. In prime locations.</span>
@@ -144,33 +144,32 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="about-blurb">
-            <p className="section__subtitle" style={{margin:0}}>
-              <strong style={{color:'#0e6b6a'}}>About PJ Agency:</strong> Our mission is to connect Malawians with quality homes, plots, and rentals—reliably and transparently. Our vision is a seamless property journey for buyers, sellers, and renters across Malawi.
-            </p>
-          </div>
+          {/* Removed About PJ Agency blurb per request */}
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="container section">
+      <section className="container section section--sand">
         <div className="section__header">
           <span className="kicker">Testimonials</span>
         </div>
         <div className="section--sand">
           <div className="grid" style={{gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))'}}>
-            <blockquote className="card card--tinted alt" style={{margin:0}}>
+            <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Thanks to PJ Agency, I bought a plot in Area 25 hassle-free.”
               <footer style={{marginTop:8, color:'#64748b'}}>— Happy Client</footer>
             </blockquote>
-            <blockquote className="card card--tinted alt" style={{margin:0}}>
+
+            <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Professional and responsive team. Sold my house quickly.”
               <footer style={{marginTop:8, color:'#64748b'}}>— Seller</footer>
             </blockquote>
-            <blockquote className="card card--tinted alt" style={{margin:0}}>
+
+            <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Found a great rental in Lilongwe within days.”
               <footer style={{marginTop:8, color:'#64748b'}}>— Tenant</footer>
             </blockquote>
+
           </div>
         </div>
       </section>

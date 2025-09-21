@@ -48,7 +48,7 @@ export default function AdvertCard({ advert, enableSlideshow = true, intervalMs 
   const discountPct = hasSale ? Math.round(100 - (advert.salePrice / advert.price) * 100) : 0;
 
   return (
-    <Link to={`/adverts/${advert._id}`} className="card card--hover advert" style={{textDecoration:'none', color:'inherit'}}>
+    <Link to={`/adverts/${advert._id}`} className="card card--hover-lift advert" style={{textDecoration:'none', color:'inherit'}}>
       <div className="advert__media">
         <img
           src={imgSrc}
