@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const isActive = (path) =>
-    path === '/'
-      ? pathname === '/'
-      : pathname.startsWith(path);
+    path === '/' ? pathname === '/' : pathname.startsWith(path);
+
+  // Add scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50); // adjust threshold as needed
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className={`nav ${open ? 'is-open' : ''}`}>
+    <header className={`nav ${open ? 'is-open' : ''} ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav__inner container">
         <Link to="/" className="nav__brand" onClick={() => setOpen(false)}>
           <span className="nav__logo">PJ</span>
           <span className="nav__title">Agency</span>
         </Link>
 
-        {/* Mobile menu toggle */}
         <button
           className="nav__toggle"
           aria-label="Toggle navigation"
@@ -26,8 +33,13 @@ export default function Navbar() {
           aria-controls="primary-nav"
           onClick={() => setOpen((v) => !v)}
         >
-          {/* Simple icon */}
-          <span style={{display:'inline-block', width:18, height:2, background:'var(--pj-ink)', boxShadow:'0 6px 0 var(--pj-ink), 0 12px 0 var(--pj-ink)'}} />
+          <span style={{
+            display:'inline-block',
+            width:18,
+            height:2,
+            background:'var(--pj-ink)',
+            boxShadow:'0 6px 0 var(--pj-ink), 0 12px 0 var(--pj-ink)'
+          }} />
         </button>
 
         <nav id="primary-nav" className="nav__links" onClick={() => setOpen(false)}>

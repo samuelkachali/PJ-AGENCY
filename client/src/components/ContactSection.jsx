@@ -51,15 +51,15 @@ export default function ContactSection({ bare = false }) {
         <div className="card card--tinted">
           <div style={{fontWeight:700, marginBottom:6}}>Quick contacts</div>
           <div style={{display:'grid', gap:6}}>
-            <a className="btn btn--light" href="https://wa.me/265999000000" target="_blank" rel="noreferrer">WhatsApp</a>
-            <a className="btn btn--light" href="tel:+265999000000">Call us</a>
-            <a className="btn btn--light" href="mailto:info@pjagency.mw">info@pjagency.mw</a>
+            <a className="btn btn--light" href="https://wa.me/265997330912" target="_blank" rel="noreferrer">WhatsApp</a>
+            <a className="btn btn--light" href="tel:+265997330912">Call us</a>
+            <a className="btn btn--light" href="mailto:pjagency83@gmail.com">pjagency83@gmail.com</a>
           </div>
           <div className="muted" style={{marginTop:8}}>Office: Lilongwe, Malawi</div>
           <div style={{display:'flex', gap:8, marginTop:8}}>
             <a className="btn btn--light" href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
             <a className="btn btn--light" href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-            <a className="btn btn--light" href="https://wa.me/265999000000" target="_blank" rel="noreferrer">WhatsApp</a>
+            <a className="btn btn--light" href="https://wa.me/265997330912" target="_blank" rel="noreferrer">WhatsApp</a>
           </div>
         </div>
       </aside>

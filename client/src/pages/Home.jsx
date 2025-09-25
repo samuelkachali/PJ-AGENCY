@@ -80,11 +80,11 @@ export default function Home() {
       {hot.length > 0 && (
         <section className="container section section--alt">
           <div className="section__header">
-            <span className="kicker"><span className="icon" aria-hidden="true" style={{lineHeight:0}}><IconFlame /></span> Hot Deals</span>
+            <span className="kicker"><span className="icon" aria-hidden="true" style={{lineHeight:0}}><IconFlame /></span> <span style={{color:'#ef4444'}}>Hot Deals</span></span>
             <span className="section__subtitle">Discounted land and houses currently on promotion.</span>
           </div>
           <div className="card card--glass section--mesh">
-            <h2 className="section__title" style={{marginTop:0}}>Up to 50% Off</h2>
+            <h2 className="section__title" style={{marginTop:0, color:'#6b7280'}}>Up to 50% Off</h2>
             <div className="grid grid--cards" style={{marginTop: 12}}>
               {hot.map(a => (
                 <AdvertCard key={a._id} advert={a} enableSlideshow={true} intervalMs={2200} />
@@ -157,17 +157,17 @@ export default function Home() {
           <div className="grid" style={{gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))'}}>
             <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Thanks to PJ Agency, I bought a plot in Area 25 hassle-free.”
-              <footer style={{marginTop:8, color:'#64748b'}}>— Happy Client</footer>
+              <footer style={{marginTop:8, color:'#64748b'}}>— Mr Phiri</footer>
             </blockquote>
 
             <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Professional and responsive team. Sold my house quickly.”
-              <footer style={{marginTop:8, color:'#64748b'}}>— Seller</footer>
+              <footer style={{marginTop:8, color:'#64748b'}}>— PJAGENCY</footer>
             </blockquote>
 
             <blockquote className="card card--tinted alt card--hover-lift" style={{margin:0}}>
               “Found a great rental in Lilongwe within days.”
-              <footer style={{marginTop:8, color:'#64748b'}}>— Tenant</footer>
+              <footer style={{marginTop:8, color:'#64748b'}}>— Chikumbutso Banda</footer>
             </blockquote>
 
           </div>
@@ -178,8 +178,8 @@ export default function Home() {
       <section className="container section">
         <div className="section--cta">
           <div>
-            <h3 style={{margin:'0 0 6px'}}>Looking for a house, land, or rental? Let us help you today.</h3>
-            <div style={{opacity:.9}}>Talk to our agent for personalized recommendations.</div>
+            <h3 style={{margin:'0 0 6px', color:'rgb(154, 166, 157)'}}>Looking for a house, land, or rental? <span style={{color:'#fff', fontSize: '12.5px'}}>Let us help you today.</span></h3>
+            {/* <div style={{opacity:.9}}>Talk to our agent for personalized recommendations.</div> */}
           </div>
           <button type="button" className="btn btn--primary" onClick={() => setShowContact(true)}>Talk to an Agent</button>
         </div>
